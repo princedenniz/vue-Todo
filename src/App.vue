@@ -15,7 +15,7 @@ const todos_asc = computed(() =>
 
 const addTodo = ()=>{
   if(input_content.value.trim() === '' || input_category.value === null){
-    return
+    return alert("no field can be left blank")
   }
 
   todos.value.push({
@@ -24,6 +24,10 @@ const addTodo = ()=>{
     done: false,
     createdAt: new Date().getTime()
   })
+
+  input_content.value = ""
+  input_category.value = ""
+  
 }
 
 const removeTodo = todo=>{
@@ -81,7 +85,9 @@ onMounted(()=>{
     </section>
 
     <section class="todo-list">
-      <h3>TODO LIST</h3>
+      
+      <h3 v-if="todos_asc.value === '' ">empty list</h3>
+      <h3 v-else>TODO LIST</h3>
       <div class="list">
         <div v-for="todo in todos_asc" :class="`todo-item ${todo.done && 'done'}`">
           <label>
